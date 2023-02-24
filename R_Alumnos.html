@@ -8,6 +8,7 @@
     <title>Primer Proyecto en HTML</title>
 </head>
 <body><!-- Contenido de la pagina html -->
+  <div id="nav"></div>
     <div class="container" id="app">
         <div class="row">
             <div class="col-12 col-md-12">
@@ -120,5 +121,120 @@
         </div>
     </div>
     
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="module">
+      import MyComponent from '/menu.js'
+      //const {createApp} = Vue;
+      createApp(MyComponent).mount('#nav')
+    </script>
+    <script>
+    const {createApp} = Vue;
+    createApp({
+    data(){
+      return{
+        db:'',
+          buscar:'',
+          alumnos:[],
+          accion: 'nuevo',
+          alumno:{
+            idAlumno:'',
+            codigo:'',
+            nombre:'',
+            direccion:'',
+            municipio:'',
+            departamento:'',
+            telefono:'',
+            nacimiento:'',
+            sexo:''
+          }
+      }
+    },
+    methods:{
+        nuevoAlumno(){
+          this.accion = 'nuevo';
+          this.alumno.idAlumno = '';
+          this.alumno.codigo = '';
+          this.alumno.nombre = '';
+          this.alumno.direccion = '';
+          this.alumno.municipio = '';
+          this.alumno.departamento = '';
+          this.alumno.telefono = '';
+          this.alumno.nacimiento = '';
+          this.alumno.sexo = '';
+        },
+        modificarAlumno(alumno){
+          this.accion = 'modificar';
+          this.alumno = alumno;
+          
+        },
+        guardarAlumno(){
+          if(this.alumno.nombre=='' || this.alumno.codigo==''){
+            console.log('Por favor ingrese los datos correspondientes');
+            return;
+          }
+          let store = this.abrirStore('tblalumnos','readwrite');
+          if(this.accion==='nuevo'){
+            this.alumno.idAlumno = new Date().getTime().toString(16); //las cantidad milisegundo y lo convierte en hexadecimal
+            
+          }
+          let query = store.put( JSON.parse( JSON.stringify(this.alumno)));
+          query.onsuccess = resp=>{
+            this.nuevoAlumno();
+            this.listarAlumnos();
+          };
+          query.onerror = err=>{
+            console.error('ERROR al guardar alumno', err);
+          };
+          
+        },
+        eliminarAlumno(alumno){
+          if(confirm(`Esta seguro de eliminar el docente ${alumno.nombre}?`)){
+            let store = this.abrirStore('tblalumnos','readwrite'),
+                req = store.delete(alumno.idAlumno);
+                req.onsuccess = res=>{
+                  this.listarAlumnos();
+                };
+                req.onerror = err=>{
+                  console.error('ERROR al guardar alumno')
+                };
+          }
+        },
+        listarAlumnos(){
+          let store = this.abrirStore('tblalumnos','readonly'),
+              data = store.getAll();
+            data.onsuccess = resp=>{
+            this.alumnos = data.result.filter(alumno=>alumno.nombre.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 || alumno.codigo.indexOf(this.buscar)>-1);
+          };
+        },
+        abrirBD(){
+        let indexDB = indexedDB.open('db_sistema_academico',1);
+        indexDB.onupgradeneeded = e=>{
+          let req = e.target.result,
+            tblalumnos = req.createObjectStore('tblalumnos',{keyPath: 'idAlumno'}),
+            tblmaterias = req.createObjectStore('tblmaterias',{keyPath: 'idMateria'});
+            
+            tblalumnos.createIndex('idAlumno','idAlumno',{unique:true});
+            tblalumnos.createIndex('codigo','codigo',{unique:true});
+        };
+        indexDB.onsuccess = e=>{
+          this.db = e.target.result;
+          this.listarAlumnos();
+        };
+        indexDB.onerror = e=>{
+          console.error('ERROR al crear, abrir la BD',e);
+        };
+      },
+      abrirStore(store,modo){
+        let ltx = this.db.transaction(store,modo);
+        return ltx.objectStore(store);
+      }
+    },
+    created(){
+      this.abrirBD();
+      
+    }
+  }).mount('#app')
+    </script>
 </body>
 </html>
