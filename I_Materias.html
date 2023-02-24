@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscripcion de materias </title>
+</head>
+
+<!DOCTYPE html><!-- Definicion de tipo de documento -->
+<html lang="en"><!-- Apertura de la pagina html -->
+<head><!-- Encabezado de la pagina html -->
+    <meta charset="UTF-8"><!-- Codificacion de Caracteres especiales  -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"><!-- IE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <title>Inscripcion de materias</title>
+</head>
+<body><!-- Contenido de la pagina html -->
+    <div class="container" id="app">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="card border-dark">
+                    <div class="card-header bg-dark text-white">INSCIPCION DE MATERIAS</div>
+                    <div class="card-body">
+                        <form id="frmInscripcion" @submit.prevent="guardarMateria" @reset.prevent="nuevoMateria()">
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">MATERIAS:</div>
+                                <div class="col-9 col-md-3">
+                                    <input class="form-control" type="text" v-model="inscripcion.materia" name="txtMateriaInscripsion" id="txtMateriaInscripcion">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">GRUPOS:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text" v-model="inscripcion.Grupo" name="txtGrupoInscripcion" id="txtGrupoInscrpcion">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col col-md-6">
+                                    <input class="btn btn-secondary" type="submit" value="Guardar Datos">
+                                </div>
+                                <div class="col col-md-6">
+                                    <input class="btn btn-danger" type="reset" value="Nuevo Registro">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+           
+</body>
+</html>
