@@ -25,7 +25,7 @@
                 <div class="card border-dark">
                     <div class="card-header bg-dark text-white">INSCIPCION DE MATERIAS</div>
                     <div class="card-body">
-                        <form id="frmInscripcion" @submit.prevent="guardarMateria" @reset.prevent="nuevoMateria()">
+                        <form id="frmInscripcion" @submit.prevent="login" @reset.prevent="nuevoMateria()">
                             <div class="row p-1">
                                 <div class="col-3 col-md-2">MATERIAS:</div>
                                 <div class="col-9 col-md-3">
@@ -77,7 +77,7 @@
                 }
             },
             methods:{
-                nuevaMateria(){
+                nuevoMateria(){
                     this.accion = 'nuevo';
                     this.inscripcion.idMateria = '';
                     this.inscripcion.materia = '';
@@ -95,11 +95,12 @@
                     }
                     let query = store.put( JSON.parse( JSON.stringify(this.inscripcion)));
                     query.onsuccess = resp=>{
-                        this.nuevaMateria();
+                        this.nuevoMateria();
                         this.listar();
                     };
                     query.onerror = err=>{
                         console.error('ERROR al guardar alumno', err);
+                        alert("Los Datos ya existen");
                     };
                     
                  },
@@ -112,6 +113,38 @@
                         this.inscripciones = data.result
                     };
                 },
+                Login(){
+                    /*usuario = document.querySelector("#txtMateriaInscripcion");
+                    contra = document.querySelector("#txtGrupoInscripcion");
+                let store = this.abrirStore('tblmaterias','readonly'),
+                    data = store.getKey('grupo','materia');
+                    data.onsuccess = resp=>{
+                        if(this.inscripcion.materia === store.count() && this.inscripcion.grupo === store.count()){
+                            console.log("iniciado");
+                        }
+                        else{
+                            console.log("tas pendejo");
+                        }
+                    },
+                    data.onerror = resp =>{
+                        console.error("NI PA ESTO SIRVES", resp)
+                    }*/
+                    let store = this.abrirStore('tblmaterias','readonly')
+                    let request = store.openCursor();
+
+                        // llamado por cada libro encontrado por el cursor
+                        request.onsuccess = function() {
+                        let cursor = request.result;
+                        if (cursor) {
+                            let key = cursor.key; // clave del libro (el campo id)
+                            let value = cursor.value; // el objeto libro
+                            console.log(key, value);
+                            cursor.continue();
+                        } else {
+                            console.log("No hay más libros");
+                        }
+                        };
+                },
                 abrirBD(){
                     let indexDB = indexedDB.open('db_sistema_academico',1);
                     indexDB.onupgradeneeded = e=>{
@@ -120,7 +153,7 @@
                         tblmaterias = req.createObjectStore('tblmaterias',{keyPath: 'idMateria'});
                         
                         tblalumnos.createIndex('idAlumno','idAlumno',{unique:true});
-                        tblmaterias.createIndex('idMateria','idMateria',{unique:true});
+                        tblmaterias.createIndex('materia','materia',{unique:true});
                     };
                     indexDB.onsuccess = e=>{
                     this.db = e.target.result;
