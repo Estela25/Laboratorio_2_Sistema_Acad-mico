@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matricula</title>
+</head>
+<body>
+    <div class="container" id="app">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="card border-info">
+                    <div class="card-header bg-info text-white">MATRICULA</div>
+                    <div class="card-body">
+                        <form id="frmMatricula" @submit.prevent="guardarAlumno" @reset.prevent="nuevoAlumno()">
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">CODIGO:</div>
+                                <div class="col-9 col-md-3">
+                                    <input class="form-control" type="text" v-model="alumno.codigo" name="txtCodigoAlumno" id="txtCodigoAlumno">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">NOMBRE:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text" v-model="alumno.nombre" name="txtNombreAlumno" id="txtNombreAlumno">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">APELLIDO:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text"  v-model="alumno.apellido" name="txtSexoApellido"  id="txtSexoApellido">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">DIRECCION:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text"  v-model="alumno.direccion" name="txtDireccionAlumno"  id="txtDireccionAlumno">
+                                </div>
+                             </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">MUNICIPIO:</div>
+                                <div class="col col-md-6">
+                                    <input class="form-control" v-model="alumno.municipio" type="text" name="txtMunicipioAlumno" id="txtMunicipioAlumno">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">DEPARTAMENTO:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text"  v-model="alumno.departamento" name="txtDepartamentoAlumno"  id="txtDepartamentoAlumno">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">TELEFONO:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text"  v-model="alumno.telefono" name="txtTelefonoAlumno"  id="txtTelefonoAlumno">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">FECHA DE NACIMIENTO:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="date"  v-model="alumno.fechan" name="txtFechaNAlumno"  id="txtFechaNAlumno">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">SEXO:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text"  v-model="alumno.sexo" name="txtSexoAlumno"  id="txtSexoAlumno">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">EDAD:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text"  v-model="alumno.edad" name="txtSexoEdad"  id="txtSexoEdad">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">DUI:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text"  v-model="alumno.dui" name="txtSexoDui"  id="txtSexoDui">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">ESTADO CIVIL:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text"  v-model="alumno.estadoc" name="txtSexoEstadoc"  id="txtSexoEstadoc">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">PASAPORTE:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text"  v-model="alumno.pasaporte" name="txtSexoPasaporte"  id="txtSexoPasaporte">
+                                </div>
+                            </div>
+                            
+
+                            <div class="row p-1">
+                                <div class="col col-md-6">
+                                    <input class="btn btn-dark" type="submit" value="MATRICULAR">
+                                </div>
+                                <div class="col col-md-6">
+                                    <input class="btn btn-info" type="reset" value="NUEVA MATRICULA">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    
+</body>
+</html>
