@@ -189,6 +189,7 @@
           };
           query.onerror = err=>{
             console.error('ERROR al guardar alumno', err);
+            alert(`Ya existe un alumno con el codigo: ${alumno.codigo}?`);
           };
           
         },
@@ -200,7 +201,7 @@
                   this.listarAlumnos();
                 };
                 req.onerror = err=>{
-                  console.error('ERROR al guardar alumno')
+                  console.error('ERROR al guardar alumno');
                 };
           }
         },

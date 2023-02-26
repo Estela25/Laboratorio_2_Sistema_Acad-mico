@@ -153,6 +153,7 @@
                         tblmaterias = req.createObjectStore('tblmaterias',{keyPath: 'idMateria'});
                         
                         tblalumnos.createIndex('idAlumno','idAlumno',{unique:true});
+                        tblmaterias.createIndex('idMateria','idMateria',{unique:true});
                         tblmaterias.createIndex('materia','materia',{unique:true});
                     };
                     indexDB.onsuccess = e=>{
