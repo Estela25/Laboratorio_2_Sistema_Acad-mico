@@ -4,118 +4,42 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/style.css">
     <title>Materias inscritas</title>
 </head>
 <body>
-    <div id="nav" class="navv"></div>
+    <form>
     <div class="col-12 col-md-10">
-        </div class="card text-bg-light">
-        <div class="card-header">CONSULTA DE ALUMNOS</div>
-        <div class="card-body">
-        <form>
-            <table class="table table-dark table-hover">
-            <thead>
-                <tr>
-                    <th>BUSCAR:</th>
-                    <th colspan="2"><input type="text" @keyup="listar()" v- model="buscar" 
-                        class="form-control" placeholder="Busar por materia" ></th>
-                </tr>
-                <tr>
-                    <th>MATERIA</th>
-                    <th>GRUPO</th>
-                    <th colspan="2"></th>
-                </tr>
-                <thead>
-                    <tbody>
-                        <tr v-for="materia in materias" @click='modificarMateria(materia)' :key="materia.idMateria">
-                            <td>{{materia.materi}}</td>
-                            <td>{{materia.grupo}}</td>
-                            <td><button @click.prevent="eliminarMateria(materia)" class="btn btn-danger">Eliminar</button></td>
-                        </tr>
-                    </tbody>
-                </thead>
-            <table>
-        </form>
+        <div class="card text-bg-light">
+            <div class="card-header">CONSULTA DE MATERIAS</div>
+            <div class="card-body">
+                <form>
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>BUSCAR:</th>
+                                <th colspan="2"><input type="text" @keyup="listarMaterias()" v-model="buscar" 
+                                    class="form-control" placeholder="Busar por nombre" ></th>
+                            </tr>
+                            <tr>
+                                <th>MATERIAS</th>
+                                <th>GRUPOS</th>
+                                <th colspan="2">GRUPOS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="materia in materias" @click='modificarMateria(materia)' :key="materia.idMateria">
+                                <td>{{materia.materias}}</td>
+                                <td>{{materia.grupos}}</td>
+                                <td><button @click.prevent="eliminarMaterias(materia)" class="btn btn-danger">Eliminar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script type="module">
-    import MyComponent from '/menu.js'
-    const {createApp} = Vue;
-    createApp(MyComponent).mount('#nav')
-  </script> 
-  <script>
-    const {createApp} = Vue;
-    createApp({
-        data(){
-            return{
-                db:'',
-                buscar:'',
-                accion: 'nuevo',
-                materias:[],
-                materia:{
-                    idMateria:'',
-                    materi:'',
-                    grupo:''
-                    
-                }
-
-            }
-        },
-        methods:{
-            eliminarMateria(materia){
-                if(confirm(`Esta seguro de eliminar el docente ${materia.materia}?`)){
-                    let store = this.abrirStore('tblmaterias','readwrite'),
-                        req = store.delete(materia.idMateria);
-                        req.onsuccess = res=>{
-                        this.listar();
-                        };
-                        req.onerror = err=>{
-                        console.error('ERROR al guardar alumno')
-                        };
-                }
-            },
-            listar(){
-                let store = this.abrirStore('tblmaterias','readonly'),
-                    data = store.getAll();
-                    data.onsuccess = resp=>{
-                    this.materias = data.result.filter(materia=>materia.materi.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 || materia.grupo.indexOf(this.buscar)>-1);
-                };
-                
-            },
-            abrirBD(){
-                let indexDB = indexedDB.open('db_sistema_academico',1);
-                indexDB.onupgradeneeded = e=>{
-                let req = e.target.result,
-                    tblalumnos = req.createObjectStore('tblalumnos',{keyPath: 'idAlumno'}),
-                    tblmaterias = req.createObjectStore('tblmaterias',{keyPath: 'idMateria'});
-                    
-                    tblalumnos.createIndex('idAlumno','idAlumno',{unique:true});
-                    tblmaterias.createIndex('idMateria','idMateria',{unique:true});
-                };
-                indexDB.onsuccess = e=>{
-                this.db = e.target.result;
-                this.listar();
-                };
-                indexDB.onerror = e=>{
-                console.error('ERROR al crear, abrir la BD',e);
-                };
-        },
-        abrirStore(store,modo){
-            let ltx = this.db.transaction(store,modo);
-            return ltx.objectStore(store);
-           
-        }
-        
-        },
-        created(){
-            this.abrirBD();
-        }
-    }).mount('#app')
-</script>
 </body>
+
 </html>
