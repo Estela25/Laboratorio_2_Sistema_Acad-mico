@@ -28,6 +28,8 @@
                             <tr>
                                 <th>MATERIAS</th>
                                 <th>GRUPOS</th>
+                                <th>DOCENTE</th>
+                                <th>HORARIOS</th>
                                 <th colspan="2"></th>
                             </tr>
                         </thead>
@@ -35,6 +37,8 @@
                             <tr v-for="materia in materias" :key="materia.idMateria">
                                 <td>{{materia.materia}}</td>
                                 <td>{{materia.grupo}}</td>
+                                <td>{{materia.docente}}</td>
+                                <td>{{materia.horarios}}</td>
                                 <td><button @click.prevent="añadirMateria(materia)" class="btn btn-success">INSCRIBIR</button></td>
                             </tr>
                         </tbody>
@@ -62,6 +66,8 @@
                             <tr>
                                 <th>MATERIAS</th>
                                 <th>GRUPOS</th>
+                                <th>DOCENTE</th>
+                                <th>HORARIOS</th>
                                 <th colspan="2"></th>
                             </tr>
                         </thead>
@@ -69,6 +75,8 @@
                             <tr v-for="materiaI in materiasI" :key="materiaI.idMateria">
                                 <td>{{materiaI.materia}}</td>
                                 <td>{{materiaI.grupo}}</td>
+                                <td>{{materiaI.docente}}</td>
+                                <td>{{materiaI.horarios}}</td>
                                 <td><button @click.prevent="eliminarMaterias(materia)" class="btn btn-danger">Eliminar</button></td>
                             </tr>
                         </tbody>
@@ -97,14 +105,19 @@
                     materia:{
                         idMateria:'',
                         materia:'',
-                        grupo:''
+                        grupo:'',
+                        docente:'',
+                        horarios:''
                         
                     },
                     materiasI:[],
                     materiaI:{
                         idMateria:'',
                         materia:'',
-                        grupo:''
+                        grupo:'',
+                        docente:'',
+                        horarios:''
+
                     }
 
 
@@ -114,9 +127,7 @@
                 añadirMateria(materia){
                     this.materiaI = this.materia;
                     this.materiasI = this.materias;
-                    this.materiaI.idMateria = this.materia.idMateria;
-                    this.materiaI.materia = this.materia.materia;
-                    this.materiaI.grupo = this.materia.grupo;
+        
                     let store = this.abrirStore('tblinscritas','readwrite');
                     if(this.accion==='nuevo'){
                         this.materia.idMateria = new Date().getTime().toString(16); //las cantidad milisegundo y lo convierte en hexadecimal
@@ -132,7 +143,7 @@
                     };
                 },
                 eliminarMaterias(materia){
-                if(confirm(`Esta seguro de eliminar el docente ${materia.materia}?`)){
+                if(confirm(`Esta seguro de eliminar la inscripcion ${materia.materia}?`)){
                     let store = this.abrirStore('tblinscritas','readwrite'),
                         req = store.delete(materia.idMateria);
                         req.onsuccess = res=>{
@@ -143,35 +154,6 @@
                         };
                 }
                 },
-                nuevoMateria(){
-                    this.accion = 'nuevo';
-                    this.materia.idMateria = '';
-                    this.materia.materia = '';
-                    this.materia.grupo = '';
-                },
-                guardarMateria(){
-                    if(this.materia.materia=='' || this.materia.grupo==''){
-                        console.log('Por favor ingrese los datos correspondientes');
-                        return;
-                    }
-                    let store = this.abrirStore('tblmaterias','readwrite');
-                    if(this.accion==='nuevo'){
-                        this.materia.idMateria = new Date().getTime().toString(16); //las cantidad milisegundo y lo convierte en hexadecimal
-                        
-                    }
-                    let query = store.put( JSON.parse( JSON.stringify(this.materia)));
-                    query.onsuccess = resp=>{
-                        this.nuevoMateria();
-                        this.listar();
-                    };
-                    query.onerror = err=>{
-                        console.error('ERROR al guardar alumno', err);
-                        alert("Los Datos ya existen");
-                    };
-                    
-                 },
-                
-               
                 listar(){
                     let store = this.abrirStore('tblmaterias','readonly'),
                         data = store.getAll();
@@ -190,6 +172,13 @@
                     let indexDB = indexedDB.open('db_sistema_academico',1);
                     indexDB.onupgradeneeded = e=>{
                     let req = e.target.result,
+                        //DB ALUMNOS
+                        tblalumnos = req.createObjectStore('tblalumnos',{keyPath: 'idAlumno'});
+                        
+                        tblalumnos.createIndex('idAlumno','idAlumno',{unique:true});
+                        tblalumnos.createIndex('codigo','codigo',{unique:true});
+
+                        //DB MATERIAS Y MATERIAS INSCRITAS
                         tblmaterias = req.createObjectStore('tblmaterias',{keyPath: 'idMateria'});
                         tblinscritas = req.createObjectStore('tblinscritas',{keyPath: 'idMateria'});
                         
@@ -198,6 +187,12 @@
 
                         tblinscritas.createIndex('idMateria','idMateria',{unique:true});
                         tblinscritas.createIndex('materia','materia',{unique:true});
+
+                        //DB DOCENTES
+                        tbldocentes = req.createObjectStore('tbldocentes',{keyPath: 'idDocente'});
+                        
+                        tbldocentes.createIndex('idDocente','idDocente',{unique:true});
+                        tbldocentes.createIndex('codigo','codigo',{unique:true});
                     };
                     indexDB.onsuccess = e=>{
                     this.db = e.target.result;

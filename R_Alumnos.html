@@ -13,8 +13,8 @@
     <div class="container" id="app">
         <div class="row">
             <div class="col-12 col-md-12">
-                <div class="card border-success">
-                    <div class="card-header bg-success text-white">REGISTRO DE ALUMNOS</div>
+                <div class="card text-bg-dark mb-3">
+                    <div class="card-header">REGISTRO DE ALUMNOS</div>
                     <div class="card-body">
                         <form id="frmAlumno" @submit.prevent="guardarAlumno" @reset.prevent="nuevoAlumno()">
                             <div class="row p-1">
@@ -82,11 +82,11 @@
         <br>
             <div class="row">
             <div class="col-12 col-md-10">
-                <div class="card text-bg-light">
+                <div class="card text-bg-dark mb-3">
                     <div class="card-header">CONSULTA DE ALUMNOS</div>
                     <div class="card-body">
                         <form>
-                            <table class="table table-dark table-hover">
+                            <table class="table table-success table-striped">
                                 <thead>
                                     <tr>
                                         <th>BUSCAR:</th>
@@ -186,6 +186,7 @@
           query.onsuccess = resp=>{
             this.nuevoAlumno();
             this.listarAlumnos();
+            alert('Se ha ingresado un nuevo registro');
           };
           query.onerror = err=>{
             console.error('ERROR al guardar alumno', err);
@@ -194,7 +195,7 @@
           
         },
         eliminarAlumno(alumno){
-          if(confirm(`Esta seguro de eliminar el docente ${alumno.nombre}?`)){
+          if(confirm(`Esta seguro de eliminar el alumno ${alumno.nombre}?`)){
             let store = this.abrirStore('tblalumnos','readwrite'),
                 req = store.delete(alumno.idAlumno);
                 req.onsuccess = res=>{
@@ -216,10 +217,27 @@
         let indexDB = indexedDB.open('db_sistema_academico',1);
         indexDB.onupgradeneeded = e=>{
           let req = e.target.result,
+            //DB ALUMNOS
             tblalumnos = req.createObjectStore('tblalumnos',{keyPath: 'idAlumno'});
             
             tblalumnos.createIndex('idAlumno','idAlumno',{unique:true});
             tblalumnos.createIndex('codigo','codigo',{unique:true});
+
+            //DB MATERIAS Y MATERIAS INSCRITAS
+            tblmaterias = req.createObjectStore('tblmaterias',{keyPath: 'idMateria'});
+            tblinscritas = req.createObjectStore('tblinscritas',{keyPath: 'idMateria'});
+            
+            tblmaterias.createIndex('idMateria','idMateria',{unique:true});
+            tblmaterias.createIndex('materia','materia',{unique:true});
+
+            tblinscritas.createIndex('idMateria','idMateria',{unique:true});
+            tblinscritas.createIndex('materia','materia',{unique:true});
+
+            //DB DOCENTES
+            tbldocentes = req.createObjectStore('tbldocentes',{keyPath: 'idDocente'});
+            
+            tbldocentes.createIndex('idDocente','idDocente',{unique:true});
+            tbldocentes.createIndex('codigo','codigo',{unique:true});
         };
         indexDB.onsuccess = e=>{
           this.db = e.target.result;
@@ -254,6 +272,11 @@
 
             tblinscritas.createIndex('idMateria','idMateria',{unique:true});
             tblinscritas.createIndex('materia','materia',{unique:true});
+
+            tbldocentes = req.createObjectStore('tbldocentes',{keyPath: 'idDocente'});
+            
+            tbldocentes.createIndex('idDocente','idDocente',{unique:true});
+            tbldocentes.createIndex('codigo','codigo',{unique:true});
             */
             
     </script>

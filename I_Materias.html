@@ -22,13 +22,13 @@
     <div class="container" id="app">
         <div class="row">
             <div class="col-12 col-md-12">
-                <div class="card border-dark">
-                    <div class="card-header bg-dark text-white">INSCIPCION DE MATERIAS</div>
+                <div class="card text-bg-primary mb-3">
+                    <div class="card-header  text-white">REGISTRO DE MATERIAS (DOCENTES)</div>
                     <div class="card-body">
                         <form id="frmInscripcion" @submit.prevent="guardarMateria" @reset.prevent="nuevoMateria()">
                             <div class="row p-1">
                                 <div class="col-3 col-md-2">MATERIAS:</div>
-                                <div class="col-9 col-md-3">
+                                <div class="col-9 col-md-6">
                                     <input class="form-control" type="text" v-model="inscripcion.materia" name="txtMateriaInscripsion" id="txtMateriaInscripcion">
                                 </div>
                             </div>
@@ -36,6 +36,18 @@
                                 <div class="col-3 col-md-2">GRUPOS:</div>
                                 <div class="col-9 col-md-6">
                                     <input class="form-control" type="text" v-model="inscripcion.grupo" name="txtGrupoInscripcion" id="txtGrupoInscrpcion">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">DOCENTE:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text" v-model="inscripcion.docente" name="txtGrupoInscripcion" id="txtGrupoInscrpcion">
+                                </div>
+                            </div>
+                            <div class="row p-1">
+                                <div class="col-3 col-md-2">HORARIOS:</div>
+                                <div class="col-9 col-md-6">
+                                    <input class="form-control" type="text" v-model="inscripcion.horarios" name="txtGrupoInscripcion" id="txtGrupoInscrpcion">
                                 </div>
                             </div>
                             <div class="row p-1">
@@ -50,6 +62,45 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="card text-bg-primary mb-3">
+                <div class="card-header">
+                  CONSULTA DE MATERIAS
+                </div>
+                <div class="card-body">
+                    <form>
+                        <table class="table table-success table-striped">
+                            <thead>
+                                <tr>
+                                    <th>BUSCAR:</th>
+                                    <th colspan="2"><input type="text" @keyup="listar()" v-model="buscar" 
+                                        class="form-control" placeholder="Busar por nombre" ></th>
+                                </tr>
+                                <tr>
+                                    <th>MATERIAS</th>
+                                    <th>GRUPOS</th>
+                                    <th>DOCENTE</th>
+                                    <th>HORARIOS</th>
+                                    <th colspan="2"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="inscripcion in inscripciones" :key="inscripcion.idMateria">
+                                    <td>{{inscripcion.materia}}</td>
+                                    <td>{{inscripcion.grupo}}</td>
+                                    <td>{{inscripcion.docente}}</td>
+                                    <td>{{inscripcion.horarios}}</td>
+                                    <td><button @click.prevent="eliminarMateria(inscripcion)" class="btn btn-danger">ELIMINAR</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+              </div>
+        </div>
+    </div>
             
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -70,7 +121,9 @@
                     inscripcion:{
                         idMateria:'',
                         materia:'',
-                        grupo:''
+                        grupo:'',
+                        docente:'',
+                        horarios:''
                         
                     }
 
@@ -82,6 +135,8 @@
                     this.inscripcion.idMateria = '';
                     this.inscripcion.materia = '';
                     this.inscripcion.grupo = '';
+                    this.inscripcion.docente = '';
+                    this.inscripcion.horarios = '';
                 },
                 guardarMateria(){
                     if(this.inscripcion.materia=='' || this.inscripcion.grupo==''){
@@ -105,7 +160,18 @@
                     };
                     
                  },
-                
+                 eliminarMateria(inscripcion){
+                    if(confirm(`Esta seguro de eliminar la materia ${inscripcion.materia}?`)){
+                        let store = this.abrirStore('tblmaterias','readwrite'),
+                            req = store.delete(inscripcion.idMateria);
+                            req.onsuccess = res=>{
+                            this.listar();
+                            };
+                            req.onerror = err=>{
+                            console.error('ERROR al guardar alumno');
+                            };
+                    }
+                },
                
                 listar(){
                     let store = this.abrirStore('tblmaterias','readonly'),
@@ -114,46 +180,31 @@
                         this.inscripciones = data.result
                     };
                 },
-                Login(){
-                    /*usuario = document.querySelector("#txtMateriaInscripcion");
-                    contra = document.querySelector("#txtGrupoInscripcion");
-                let store = this.abrirStore('tblmaterias','readonly'),
-                    data = store.getKey('grupo','materia');
-                    data.onsuccess = resp=>{
-                        if(this.inscripcion.materia === store.count() && this.inscripcion.grupo === store.count()){
-                            console.log("iniciado");
-                        }
-                        else{
-                            console.log("tas pendejo");
-                        }
-                    },
-                    data.onerror = resp =>{
-                        console.error("NI PA ESTO SIRVES", resp)
-                    }*/
-                    let store = this.abrirStore('tblmaterias','readonly')
-                    let request = store.openCursor();
-
-                        // llamado por cada libro encontrado por el cursor
-                        request.onsuccess = function() {
-                        let cursor = request.result;
-                        if (cursor) {
-                            let key = cursor.key; // clave del libro (el campo id)
-                            let value = cursor.value; // el objeto libro
-                            console.log(key, value);
-                            cursor.continue();
-                        } else {
-                            console.log("No hay más libros");
-                        }
-                        };
-                },
                 abrirBD(){
                     let indexDB = indexedDB.open('db_sistema_academico',1);
                     indexDB.onupgradeneeded = e=>{
                     let req = e.target.result,
+                       //DB ALUMNOS
+                        tblalumnos = req.createObjectStore('tblalumnos',{keyPath: 'idAlumno'});
+                        
+                        tblalumnos.createIndex('idAlumno','idAlumno',{unique:true});
+                        tblalumnos.createIndex('codigo','codigo',{unique:true});
+
+                        //DB MATERIAS Y MATERIAS INSCRITAS
                         tblmaterias = req.createObjectStore('tblmaterias',{keyPath: 'idMateria'});
+                        tblinscritas = req.createObjectStore('tblinscritas',{keyPath: 'idMateria'});
                         
                         tblmaterias.createIndex('idMateria','idMateria',{unique:true});
                         tblmaterias.createIndex('materia','materia',{unique:true});
+
+                        tblinscritas.createIndex('idMateria','idMateria',{unique:true});
+                        tblinscritas.createIndex('materia','materia',{unique:true});
+
+                        //DB DOCENTES
+                        tbldocentes = req.createObjectStore('tbldocentes',{keyPath: 'idDocente'});
+                        
+                        tbldocentes.createIndex('idDocente','idDocente',{unique:true});
+                        tbldocentes.createIndex('codigo','codigo',{unique:true});
                     };
                     indexDB.onsuccess = e=>{
                     this.db = e.target.result;
