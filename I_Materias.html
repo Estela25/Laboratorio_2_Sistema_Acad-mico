@@ -25,7 +25,7 @@
                 <div class="card border-dark">
                     <div class="card-header bg-dark text-white">INSCIPCION DE MATERIAS</div>
                     <div class="card-body">
-                        <form id="frmInscripcion" @submit.prevent="login" @reset.prevent="nuevoMateria()">
+                        <form id="frmInscripcion" @submit.prevent="guardarMateria" @reset.prevent="nuevoMateria()">
                             <div class="row p-1">
                                 <div class="col-3 col-md-2">MATERIAS:</div>
                                 <div class="col-9 col-md-3">
@@ -55,7 +55,7 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script type="module">
       import MyComponent from '/menu.js'
-      const {createApp} = Vue;
+      //const {createApp} = Vue;
       createApp(MyComponent).mount('#nav')
     </script> 
     <script>
@@ -97,6 +97,7 @@
                     query.onsuccess = resp=>{
                         this.nuevoMateria();
                         this.listar();
+                        alert("Los Materia ha sido guarda con EXITO");
                     };
                     query.onerror = err=>{
                         console.error('ERROR al guardar alumno', err);
@@ -149,10 +150,8 @@
                     let indexDB = indexedDB.open('db_sistema_academico',1);
                     indexDB.onupgradeneeded = e=>{
                     let req = e.target.result,
-                        tblalumnos = req.createObjectStore('tblalumnos',{keyPath: 'idAlumno'}),
                         tblmaterias = req.createObjectStore('tblmaterias',{keyPath: 'idMateria'});
                         
-                        tblalumnos.createIndex('idAlumno','idAlumno',{unique:true});
                         tblmaterias.createIndex('idMateria','idMateria',{unique:true});
                         tblmaterias.createIndex('materia','materia',{unique:true});
                     };
@@ -174,5 +173,6 @@
             }
         }).mount('#app')
     </script>
+    <br>
 </body>
 </html>

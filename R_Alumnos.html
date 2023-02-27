@@ -189,7 +189,7 @@
           };
           query.onerror = err=>{
             console.error('ERROR al guardar alumno', err);
-            alert(`Ya existe un alumno con el codigo: ${alumno.codigo}?`);
+            alert(`Ya existe un alumno con el codigo: ${this.alumno.codigo}`);
           };
           
         },
@@ -216,8 +216,7 @@
         let indexDB = indexedDB.open('db_sistema_academico',1);
         indexDB.onupgradeneeded = e=>{
           let req = e.target.result,
-            tblalumnos = req.createObjectStore('tblalumnos',{keyPath: 'idAlumno'}),
-            tblmaterias = req.createObjectStore('tblmaterias',{keyPath: 'idMateria'});
+            tblalumnos = req.createObjectStore('tblalumnos',{keyPath: 'idAlumno'});
             
             tblalumnos.createIndex('idAlumno','idAlumno',{unique:true});
             tblalumnos.createIndex('codigo','codigo',{unique:true});
@@ -240,6 +239,24 @@
       
     }
   }).mount('#app')
+
+  /*
+            tblalumnos = req.createObjectStore('tblalumnos',{keyPath: 'idAlumno'});
+            
+            tblalumnos.createIndex('idAlumno','idAlumno',{unique:true});
+            tblalumnos.createIndex('codigo','codigo',{unique:true});
+
+            tblmaterias = req.createObjectStore('tblmaterias',{keyPath: 'idMateria'});
+            tblinscritas = req.createObjectStore('tblinscritas',{keyPath: 'idMateria'});
+            
+            tblmaterias.createIndex('idMateria','idMateria',{unique:true});
+            tblmaterias.createIndex('materia','materia',{unique:true});
+
+            tblinscritas.createIndex('idMateria','idMateria',{unique:true});
+            tblinscritas.createIndex('materia','materia',{unique:true});
+            */
+            
     </script>
+    <br>
 </body>
 </html>

@@ -4,39 +4,220 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
     <title>Materias inscritas</title>
 </head>
 <body>
-<br>
-    <div class="col-12 col-md-10">
-        <div class="card text-bg-light">
-            <div class="card-header">CONSULTA DE MATERIAS</div>
+<div id="nav"></div>
+<div class="container" id="app">
+    <div class="row">
+        <div class="card text-bg-primary mb-3">
+            <div class="card-header">
+              CONSULTA DE MATERIAS
+            </div>
+            <div class="card-body">
+                <form>
+                    <table class="table table-success table-striped">
+                        <thead>
+                            <tr>
+                                <th>BUSCAR:</th>
+                                <th colspan="2"><input type="text" @keyup="listar()" v-model="buscar" 
+                                    class="form-control" placeholder="Busar por nombre" ></th>
+                            </tr>
+                            <tr>
+                                <th>MATERIAS</th>
+                                <th>GRUPOS</th>
+                                <th colspan="2"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="materia in materias" :key="materia.idMateria">
+                                <td>{{materia.materia}}</td>
+                                <td>{{materia.grupo}}</td>
+                                <td><button @click.prevent="añadirMateria(materia)" class="btn btn-success">INSCRIBIR</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+          </div>
+    </div>
+    
+    <br>
+    <div class="row">
+        <div class="card text-bg-info mb-3">
+            <div class="card-header">
+            MATERIAS INSCRITAS
+            </div>
             <div class="card-body">
                 <form>
                     <table class="table table-dark table-hover">
                         <thead>
                             <tr>
                                 <th>BUSCAR:</th>
-                                <th colspan="2"><input type="text" @keyup="listarMaterias()" v-model="buscar" 
+                                <th colspan="2"><input type="text" @keyup="listarI()" v-model="buscar" 
                                     class="form-control" placeholder="Busar por nombre" ></th>
                             </tr>
                             <tr>
                                 <th>MATERIAS</th>
                                 <th>GRUPOS</th>
-                                <th colspan="2">GRUPOS</th>
+                                <th colspan="2"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="materia in materias" @click='modificarMateria(materia)' :key="materia.idMateria">
-                                <td>{{materia.materias}}</td>
-                                <td>{{materia.grupos}}</td>
+                            <tr v-for="materiaI in materiasI" :key="materiaI.idMateria">
+                                <td>{{materiaI.materia}}</td>
+                                <td>{{materiaI.grupo}}</td>
                                 <td><button @click.prevent="eliminarMaterias(materia)" class="btn btn-danger">Eliminar</button></td>
                             </tr>
                         </tbody>
                     </table>
                 </form>
             </div>
-        </div>
+          </div>
     </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script type="module">
+    import MyComponent from '/menu.js'
+    //const {createApp} = Vue;
+    createApp(MyComponent).mount('#nav')
+</script>
+<script>
+     const {createApp} = Vue;
+        createApp({
+            data(){
+                return{
+                    db:'',
+                    buscar:'',
+                    accion: 'nuevo',
+                    materias:[],
+                    materia:{
+                        idMateria:'',
+                        materia:'',
+                        grupo:''
+                        
+                    },
+                    materiasI:[],
+                    materiaI:{
+                        idMateria:'',
+                        materia:'',
+                        grupo:''
+                    }
+
+
+                }
+            },
+            methods:{
+                añadirMateria(materia){
+                    this.materiaI = this.materia;
+                    this.materiasI = this.materias;
+                    this.materiaI.idMateria = this.materia.idMateria;
+                    this.materiaI.materia = this.materia.materia;
+                    this.materiaI.grupo = this.materia.grupo;
+                    let store = this.abrirStore('tblinscritas','readwrite');
+                    if(this.accion==='nuevo'){
+                        this.materia.idMateria = new Date().getTime().toString(16); //las cantidad milisegundo y lo convierte en hexadecimal
+                        
+                    }
+                    let query = store.put( JSON.parse( JSON.stringify(this.materiaI)));
+                    query.onsuccess = resp=>{
+                        this.listarI();
+                    };
+                    query.onerror = err=>{
+                        console.error('ERROR al guardar alumno', err);
+                        alert("Los Datos ya existen");
+                    };
+                },
+                eliminarMaterias(materia){
+                if(confirm(`Esta seguro de eliminar el docente ${materia.materia}?`)){
+                    let store = this.abrirStore('tblinscritas','readwrite'),
+                        req = store.delete(materia.idMateria);
+                        req.onsuccess = res=>{
+                        this.listarI();
+                        };
+                        req.onerror = err=>{
+                        console.error('ERROR al guardar alumno');
+                        };
+                }
+                },
+                nuevoMateria(){
+                    this.accion = 'nuevo';
+                    this.materia.idMateria = '';
+                    this.materia.materia = '';
+                    this.materia.grupo = '';
+                },
+                guardarMateria(){
+                    if(this.materia.materia=='' || this.materia.grupo==''){
+                        console.log('Por favor ingrese los datos correspondientes');
+                        return;
+                    }
+                    let store = this.abrirStore('tblmaterias','readwrite');
+                    if(this.accion==='nuevo'){
+                        this.materia.idMateria = new Date().getTime().toString(16); //las cantidad milisegundo y lo convierte en hexadecimal
+                        
+                    }
+                    let query = store.put( JSON.parse( JSON.stringify(this.materia)));
+                    query.onsuccess = resp=>{
+                        this.nuevoMateria();
+                        this.listar();
+                    };
+                    query.onerror = err=>{
+                        console.error('ERROR al guardar alumno', err);
+                        alert("Los Datos ya existen");
+                    };
+                    
+                 },
+                
+               
+                listar(){
+                    let store = this.abrirStore('tblmaterias','readonly'),
+                        data = store.getAll();
+                        data.onsuccess = resp=>{
+                        this.materias = data.result.filter(materia=>materia.materia.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 || materia.grupo.toLowerCase().indexOf(this.buscar.toLowerCase())>-1);
+                    };
+                },
+                listarI(){
+                    let store = this.abrirStore('tblinscritas','readonly'),
+                        data = store.getAll();
+                        data.onsuccess = resp=>{
+                        this.materiasI = data.result.filter(materiaI=>materiaI.materia.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 || materiaI.grupo.toLowerCase().indexOf(this.buscar.toLowerCase())>-1);
+                    };
+                },
+                abrirBD(){
+                    let indexDB = indexedDB.open('db_sistema_academico',1);
+                    indexDB.onupgradeneeded = e=>{
+                    let req = e.target.result,
+                        tblmaterias = req.createObjectStore('tblmaterias',{keyPath: 'idMateria'});
+                        tblinscritas = req.createObjectStore('tblinscritas',{keyPath: 'idMateria'});
+                        
+                        tblmaterias.createIndex('idMateria','idMateria',{unique:true});
+                        tblmaterias.createIndex('materia','materia',{unique:true});
+
+                        tblinscritas.createIndex('idMateria','idMateria',{unique:true});
+                        tblinscritas.createIndex('materia','materia',{unique:true});
+                    };
+                    indexDB.onsuccess = e=>{
+                    this.db = e.target.result;
+                    this.listar();
+                    };
+                    indexDB.onerror = e=>{
+                    console.error('ERROR al crear, abrir la BD',e);
+                    };
+            },
+            abrirStore(store,modo){
+                let ltx = this.db.transaction(store,modo);
+                return ltx.objectStore(store);
+            }
+            },
+            created(){
+                this.abrirBD();
+            }
+        }).mount('#app')
+    </script>
+</script>
+
 </body>
 </html>

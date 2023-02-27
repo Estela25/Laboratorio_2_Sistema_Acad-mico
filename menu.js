@@ -11,10 +11,10 @@ export default {
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" @click="abrirCerrarFormulario('docente')" href="#">Docentes</a>
+                <a class="nav-link" @click="abrirCerrarFormulario('docente')" href="/Docentes.html">Docentes</a>
                 <a class="nav-link" @click="abrirCerrarFormulario('alumno')" href="/R_Alumnos.html">Alumnos</a>
                 <a class="nav-link" @click="abrirCerrarFormulario('materia')" href="/Materias_Ins.html">Materia</a>
-                <a class="nav-link" @click="abrirCerrarFormulario('matricula')" href="#">Matricula</a>
+                <a class="nav-link" @click="abrirCerrarFormulario('matricula')" href="/Matricula.html">Matricula</a>
                 <a class="nav-link" @click="abrirCerrarFormulario('inscripcion')" href="/I_Materias.html">Inscripcion</a>
             </div>
         </div>
