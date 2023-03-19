@@ -11,7 +11,7 @@ export default {
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" @click="abrirCerrarFormulario('docente')" href="/docente.html">Docentes</a>
+                <a class="nav-link" @click="abrirCerrarFormulario('docentes')" href="/docente.js">Docentes</a>
                 <a class="nav-link" @click="abrirCerrarFormulario('alumno')" href="/R_Alumnos.html">Matricula Alumnos</a>
                 <a class="nav-link" @click="abrirCerrarFormulario('inscripcion')" href="/I_Materias.html">Registro Materias</a>
                 <a class="nav-link" @click="abrirCerrarFormulario('materia')" href="/Materias_Ins.html">Inscripcion Materia</a>
