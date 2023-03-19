@@ -8,8 +8,8 @@ class DB_Conexion{
     }
     public function consultas($sql=''){
         try{
-            $parametros = func_get_args();//obtener la lista de parametros
-            array_shift($parametros);//quitamos el primer elemento porque es la consulta..
+            $parametros = func_get_args();
+            array_shift($parametros);
 
             $this->preparado = $this->conexion->prepare($sql);
             $this->result = $this->preparado->execute($parametros);
