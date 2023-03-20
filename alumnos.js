@@ -8,7 +8,13 @@ Vue.component('alumnos', {
             alumno  : {
                 idAlumno : '',
                 codigo    : '',
-                nombre    : ''
+                nombre    : '',
+                direccion :'',
+                municipio :'',
+                departamento :'',
+                telefono   :'',
+                fechaNacimiento :'',
+                sexo    :''
             }
         }
     },
@@ -18,6 +24,12 @@ Vue.component('alumnos', {
             this.alumno.idAlumno = '';
             this.alumno.codigo = '';
             this.alumno.nombre = '';
+            this.alumnos.direccion = '';
+            this.alumnos.municipio = '';
+            this.alumnos.departamento = '';
+            this.alumnos.telefono = '';
+            this.alumnos.fechaNacimiento = '';
+            this.alumnos.sexo = '';
         },
         modificarAlumno(alumno){
             this.accion = 'modificar';
@@ -84,6 +96,42 @@ Vue.component('alumnos', {
                                     </div>
                                 </div>
                                 <div class="row p-1">
+                                    <div class="col-3 col-md-2">DIRECCION:</div>
+                                    <div class="col-9 col-md-6">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                    </div>
+                                </div>
+                                    <div class="row p-1">
+                                    <div class="col-3 col-md-2">MUNICIPIO:</div>
+                                    <div class="col-9 col-md-6">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                    </div>
+                                </div>
+                                    <div class="row p-1">
+                                    <div class="col-3 col-md-2">DEPARTAMENTO:</div>
+                                    <div class="col-9 col-md-6">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                    </div>
+                                </div>    
+                                    <div class="row p-1">
+                                    <div class="col-3 col-md-2">TELEFONO:</div>
+                                    <div class="col-9 col-md-6">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                    </div>
+                                </div>
+                                <div class="row p-1">
+                                    <div class="col-3 col-md-2">FECHADENACIMIENTO:</div>
+                                    <div class="col-9 col-md-6">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                    </div>
+                                </div>
+                                <div class="row p-1">
+                                    <div class="col-3 col-md-2">SEXO:</div>
+                                    <div class="col-9 col-md-6">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                    </div>
+                                </div>
+                                <div class="row p-1">
                                     <div class="col col-md-6">
                                         <input class="btn btn-success" type="submit" value="Guardar Datos">
                                     </div>
@@ -109,13 +157,25 @@ Vue.component('alumnos', {
                                         </tr>
                                         <tr>
                                             <th>CODIGO</th>
-                                            <th colspan="2">NOMBRE</th>
+                                            <th>NOMBRE</th>
+                                            <th>DIRECCION</th>
+                                            <th>MUNICIPIO</th>
+                                            <th>DEPARTAMENTO</th>
+                                            <th>TELEFONO</th>
+                                            <th>FECHA DE NACIMIENTO</th>
+                                            <th colspan="2">SEXO</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="alumno in alumnos" @click='modificarAlumno(alumno)' :key="alumno.idAlumno">
                                             <td>{{alumno.codigo}}</td>
                                             <td>{{alumno.nombre}}</td>
+                                            <td>{{alumno.direccion}}</td>
+                                            <td>{{alumno.municipio}}</td>
+                                            <td>{{alumno.departamento}}</td>
+                                            <td>{{alumno.telefono}}</td>
+                                            <td>{{alumno.nacimiento}}</td>
+                                            <td>{{alumno.sexo}}</td>
                                             <td><button @click.prevent="eliminarAlumno(alumno)" class="btn btn-danger">Eliminar</button></td>
                                         </tr>
                                     </tbody>
