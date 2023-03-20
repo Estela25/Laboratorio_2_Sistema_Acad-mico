@@ -100,43 +100,43 @@ Vue.component('alumnos', {
                                 <div class="row p-1">
                                     <div class="col-3 col-md-2">APELLIDO:</div>
                                     <div class="col-9 col-md-6">
-                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.apellido">
                                     </div>
                                 </div>
                                 <div class="row p-1">
                                     <div class="col-3 col-md-2">DIRECCION:</div>
                                     <div class="col-9 col-md-6">
-                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.direccion">
                                     </div>
                                 </div>
                                     <div class="row p-1">
                                     <div class="col-3 col-md-2">MUNICIPIO:</div>
                                     <div class="col-9 col-md-6">
-                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.municipio">
                                     </div>
                                 </div>
                                     <div class="row p-1">
                                     <div class="col-3 col-md-2">DEPARTAMENTO:</div>
                                     <div class="col-9 col-md-6">
-                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.departamento">
                                     </div>
                                 </div>    
                                     <div class="row p-1">
                                     <div class="col-3 col-md-2">TELEFONO:</div>
                                     <div class="col-9 col-md-6">
-                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.telefono">
                                     </div>
                                 </div>
                                 <div class="row p-1">
                                     <div class="col-3 col-md-2">FECHADENACIMIENTO:</div>
                                     <div class="col-9 col-md-6">
-                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.fechadenacimiento">
                                     </div>
                                 </div>
                                 <div class="row p-1">
                                     <div class="col-3 col-md-2">SEXO:</div>
                                     <div class="col-9 col-md-6">
-                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.sexo">
                                     </div>
                                 </div>
                                 <div class="row p-1">
