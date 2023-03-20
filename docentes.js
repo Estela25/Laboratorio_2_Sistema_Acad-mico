@@ -48,7 +48,7 @@ Vue.component('docentes',{
           }
           let query = store.put( JSON.parse( JSON.stringify(this.docente)));
           query.onsuccess = resp=>{
-            fetch(`private/modulos/docente/docentes.php?accion=${this.accion}&docente=${JSON.stringify(this.docente)}`)
+            fetch(`private/modulos/docentes/docentes.php?accion=${this.accion}&docente=${JSON.stringify(this.docente)}`)
                 .then(resp=>resp.json())
                 .then(resp=>{
                     console.log(resp);
