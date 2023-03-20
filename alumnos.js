@@ -9,6 +9,7 @@ Vue.component('alumnos', {
                 idAlumno : '',
                 codigo    : '',
                 nombre    : '',
+                apellido : '',
                 direccion :'',
                 municipio :'',
                 departamento :'',
@@ -24,6 +25,7 @@ Vue.component('alumnos', {
             this.alumno.idAlumno = '';
             this.alumno.codigo = '';
             this.alumno.nombre = '';
+            this.alumno.apellido = '';
             this.alumnos.direccion = '';
             this.alumnos.municipio = '';
             this.alumnos.departamento = '';
@@ -96,6 +98,12 @@ Vue.component('alumnos', {
                                     </div>
                                 </div>
                                 <div class="row p-1">
+                                    <div class="col-3 col-md-2">APELLIDO:</div>
+                                    <div class="col-9 col-md-6">
+                                        <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
+                                    </div>
+                                </div>
+                                <div class="row p-1">
                                     <div class="col-3 col-md-2">DIRECCION:</div>
                                     <div class="col-9 col-md-6">
                                         <input required pattern="[a-zA-Z ]{3,65}" class="form-control" type="text" v-model="alumno.nombre">
@@ -158,6 +166,7 @@ Vue.component('alumnos', {
                                         <tr>
                                             <th>CODIGO</th>
                                             <th>NOMBRE</th>
+                                            <th>APELLIDO</th>
                                             <th>DIRECCION</th>
                                             <th>MUNICIPIO</th>
                                             <th>DEPARTAMENTO</th>
@@ -170,6 +179,7 @@ Vue.component('alumnos', {
                                         <tr v-for="alumno in alumnos" @click='modificarAlumno(alumno)' :key="alumno.idAlumno">
                                             <td>{{alumno.codigo}}</td>
                                             <td>{{alumno.nombre}}</td>
+                                            <td>{{alumno.apellido}}</td>
                                             <td>{{alumno.direccion}}</td>
                                             <td>{{alumno.municipio}}</td>
                                             <td>{{alumno.departamento}}</td>
