@@ -66,7 +66,7 @@ Vue.component('docentes',{
             let store = abrirStore('tbldocentes','readwrite'),
                 req = store.delete(docente.idDocente);
                 req.onsuccess = res=>{
-                  fetch(`private/modulos/docente/docentes.php?accion=eliminar&docente=${JSON.stringify(this.docente)}`)
+                  fetch(`private/modulos/docentes/docentes.php?accion=eliminar&docente=${JSON.stringify(this.docente)}`)
                     .then(resp=>resp.json())
                     .then(resp=>{
                         console.log(resp);
@@ -83,7 +83,7 @@ Vue.component('docentes',{
               data = store.getAll();
             data.onsuccess = resp=>{
             this.docentes = data.result.filter(docente=>docente.nombre.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 || docente.codigo.indexOf(this.buscar)>-1);
-            fetch(`private/modulos/docente/docentes.php`)
+            fetch(`private/modulos/docentes/docentes.php`)
           .then((response) => response.json())
           .then((data)=> (this.docentes = data));
           };
