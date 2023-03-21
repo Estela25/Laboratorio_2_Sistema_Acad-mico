@@ -10,7 +10,7 @@ $class_matricula = new Matricula($conexion);
 print_r($class_matricula->recibir_datos($matricula));
 
 $bd = new BaseDeDatos();
-$bd->obtener_registros('matriculas');
+$bd->obtener_registros('matricula');
 
 class Matricula{
     public $datos=[], $db;
@@ -45,14 +45,14 @@ class Matricula{
         if( $this->respuesta['msg']=='ok'){
             if($accion=='nuevo'){
                 $this->db->consultas('
-                INSERT INTO matriculas(idMatricula,nombre,fecha,comprobante,pago) VALUES(?,?,?,?,?)',
+                INSERT INTO matricula(idMatricula,nombre,fecha,comprobante,pago) VALUES(?,?,?,?,?)',
                 $this->datos['idMatricula'],$this->datos['nombre'], $this->datos['fecha'],$this->datos['comprobante'],
                 $this->datos['pago']
             );
             return $this->db->obtener_respuesta();
             }else if ($accion=='modificar'){
                 $this->db->consultas('
-                UPDATE matriculas SET nombre=?,fecha=?,comprobante=?,pago=? WHERE idMatricula=?',
+                UPDATE matricula SET nombre=?,fecha=?,comprobante=?,pago=? WHERE idMatricula=?',
                  $this->datos['nombre'],$this->datos['fecha'],
                 $this->datos['comprobante'],$this->datos['pago'],$this->datos['idMatricula']
             );
@@ -60,8 +60,8 @@ class Matricula{
             }else if ($accion=='eliminar'){
                 $this->db->consultas('
                 DELETE
-                FROM matriculas
-                WHERE matriculas . idMatricula=?',
+                FROM matricula
+                WHERE matricula . idMatricula=?',
                 $this->datos['idMatricula']
             );
             return $this->db->obtener_respuesta();

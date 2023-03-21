@@ -31,7 +31,7 @@ Vue.component('materias', {
                 console.log( 'Por favor ingrese los datos correspondientes' );
                 return;
             }
-            let store = abrirStore('tblmateria', 'readwrite');
+            let store = abrirStore('tblmaterias', 'readwrite');
             if( this.accion==='nuevo' ){
                 this.materia.idMateria = new Date().getTime().toString(16);//las cantidad milisegundos y lo convierte en hexadecimal   
             }
@@ -75,7 +75,7 @@ Vue.component('materias', {
                         materia.codigo.indexOf(this.buscar)>-1);
                         fetch(`private/modulos/materias/materias.php`)
                         .then((response) => response.json())
-                        .then((data)=> (this.alumnos = data));
+                        .then((data)=> (this.materias = data));
                         
             };
         },

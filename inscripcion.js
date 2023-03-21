@@ -84,11 +84,11 @@ Vue.component('inscripciones',{
               data = store.getAll();
             data.onsuccess = resp=>{
             this.inscripciones = data.result.filter(inscripcion=>inscripcion.nombre.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 || inscripcion.codigo.indexOf(this.buscar)>-1);
-            fetch(`private/modulos/inscripciones/inscripciones.php`)
+            
+          };
+          fetch(`private/modulos/inscripciones/inscripciones.php`)
           .then((response) => response.json())
           .then((data)=> (this.inscripciones = data));
-          };
-          
 
           
           
