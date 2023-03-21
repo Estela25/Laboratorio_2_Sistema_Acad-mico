@@ -45,16 +45,16 @@ class Alumno{
         if( $this->respuesta['msg']=='ok'){
             if($accion=='nuevo'){
                 $this->db->consultas('
-                INSERT INTO alumnos(idAlumno,codigo,nombre,direccion,municipio,departamento,telefono,nacimiento,sexo,dui,titulo) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+                INSERT INTO alumnos(idAlumno,codigo,nombre,direccion,municipio,departamento,telefono,nacimiento,sexo) VALUES(?,?,?,?,?,?,?,?,?)',
                 $this->datos['idAlumno'],$this->datos['codigo'], $this->datos['nombre'],$this->datos['direccion'],
-                $this->datos['municipio'],$this->datos['departamento'],$this->datos['telefono'],$this->datos['nacimiento'],$this->datos['sexo'],$this->datos['dui'],$this->datos['titulo']
+                $this->datos['municipio'],$this->datos['departamento'],$this->datos['telefono'],$this->datos['nacimiento'],$this->datos['sexo']
             );
             return $this->db->obtener_respuesta();
             }else if ($accion=='modificar'){
                 $this->db->consultas('
                 UPDATE alumnos SET codigo=?,nombre=?,direccion=?,municipio=?,departamento=?,telefono=?,nacimiento=?,sexo=? WHERE idAlumno=?',
                  $this->datos['nombre'],$this->datos['direccion'],
-                $this->datos['municipio'],$this->datos['departamento'],$this->datos['telefono'],$this->datos['nacimiento'],$this->datos['sexo'],$this->datos['dui'],$this->datos['titulo'],$this->datos['idAlumno']
+                $this->datos['municipio'],$this->datos['departamento'],$this->datos['telefono'],$this->datos['nacimiento'],$this->datos['sexo'],$this->datos['idAlumno']
             );
             return $this->db->obtener_respuesta();
             }else if ($accion=='eliminar'){

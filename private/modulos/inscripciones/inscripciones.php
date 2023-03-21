@@ -4,7 +4,7 @@ include '../../config/config.php';
 include '../../modulos/consulta/consulta.php';
 
 $bd = new BaseDeDatos();
-$bd->obtener_registros('Inscripciones');
+$bd->obtener_registros('inscripciones');
 
 extract($_REQUEST);
 $Inscripcion = isset($Inscripcion) ? $Inscripcion : '[]';
@@ -45,23 +45,23 @@ class Inscripcion{
         if( $this->respuesta['msg']=='ok'){
             if($accion=='nuevo'){
                 $this->db->consultas('
-                INSERT INTO Inscripciones(idInscripcion,codigo,nombre,direccion,municipio,departamento,telefono,nacimiento,sexo,dui,titulo) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+                INSERT INTO inscripciones(idInscripcion,codigo,nombre,direccion,municipio,departamento,telefono,nacimiento,sexo) VALUES(?,?,?,?,?,?,?,?,?)',
                 $this->datos['idInscripcion'],$this->datos['codigo'], $this->datos['nombre'],$this->datos['direccion'],
-                $this->datos['municipio'],$this->datos['departamento'],$this->datos['telefono'],$this->datos['nacimiento'],$this->datos['sexo'],$this->datos['dui'],$this->datos['titulo']
+                $this->datos['municipio'],$this->datos['departamento'],$this->datos['telefono'],$this->datos['nacimiento'],$this->datos['sexo']
             );
             return $this->db->obtener_respuesta();
             }else if ($accion=='modificar'){
                 $this->db->consultas('
-                UPDATE Inscripciones SET codigo=?,nombre=?,direccion=?,municipio=?,departamento=?,telefono=?,nacimiento=?,sexo=? WHERE idInscripcion=?',
+                UPDATE inscripciones SET codigo=?,nombre=?,direccion=?,municipio=?,departamento=?,telefono=?,nacimiento=?,sexo=? WHERE idInscripcion=?',
                  $this->datos['nombre'],$this->datos['direccion'],
-                $this->datos['municipio'],$this->datos['departamento'],$this->datos['telefono'],$this->datos['nacimiento'],$this->datos['sexo'],$this->datos['dui'],$this->datos['titulo'],$this->datos['idInscripcion']
+                $this->datos['municipio'],$this->datos['departamento'],$this->datos['telefono'],$this->datos['nacimiento'],$this->datos['sexo'],$this->datos['idInscripcion']
             );
             return $this->db->obtener_respuesta();
             }else if ($accion=='eliminar'){
                 $this->db->consultas('
                 DELETE
-                FROM Inscripciones
-                WHERE Inscripciones . idInscripcion=?',
+                FROM inscripciones
+                WHERE inscripciones . idInscripcion=?',
                 $this->datos['idInscripcion']
             );
             return $this->db->obtener_respuesta();

@@ -34,7 +34,7 @@ class Materia{
         if( empty($this->datos['nombre']) ){
             $this->respuesta['msg'] = 'Por favor digite su nombre';
         }
-        if( empty($this->datos['direccion']) ){
+        if( empty($this->datos['uv']) ){
             $this->respuesta['msg'] = 'Por favor digite su direeccon';
         }
 

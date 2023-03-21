@@ -42,7 +42,7 @@ Vue.component('inscripciones',{
             console.log('Por favor ingrese los datos correspondientes');
             return;
           }
-          let store = abrirStore('tbldocentes','readwrite');
+          let store = abrirStore('tblinscripcion','readwrite');
           if(this.accion==='nuevo'){
             this.inscripcion.idInscripcion = new Date().getTime().toString(16); 
 
@@ -64,10 +64,10 @@ Vue.component('inscripciones',{
         },
         eliminarInscripcion(inscripcion){
           if(confirm(`Esta seguro de eliminar el inscripcion ${inscripcion.nombre}?`)){
-            let store = abrirStore('tbldocentes','readwrite'),
+            let store = abrirStore('tblinscripcion','readwrite'),
                 req = store.delete(inscripcion.idInscripcion);
                 req.onsuccess = res=>{
-                  fetch(`private/modulos/inscripcion/inscripciones.php?accion=eliminar&inscripcion=${JSON.stringify(this.inscripcion)}`)
+                  fetch(`private/modulos/inscripciones/inscripciones.php?accion=eliminar&inscripcion=${JSON.stringify(this.inscripcion)}`)
                     .then(resp=>resp.json())
                     .then(resp=>{
                         console.log(resp);
@@ -80,11 +80,11 @@ Vue.component('inscripciones',{
           }
         },
         listar(){
-          let store = abrirStore('tbldocentes','readonly'),
+          let store = abrirStore('tblinscripcion','readonly'),
               data = store.getAll();
             data.onsuccess = resp=>{
             this.inscripciones = data.result.filter(inscripcion=>inscripcion.nombre.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 || inscripcion.codigo.indexOf(this.buscar)>-1);
-            fetch(`private/modulos/inscripcion/inscripciones.php`)
+            fetch(`private/modulos/inscripciones/inscripciones.php`)
           .then((response) => response.json())
           .then((data)=> (this.inscripciones = data));
           };
