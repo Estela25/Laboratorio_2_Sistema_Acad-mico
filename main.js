@@ -22,12 +22,15 @@ app = new Vue({
           let req = e.target.result,
             tblalumnos = req.createObjectStore('tblalumnos',{keyPath: 'idAlumno'}),
             tblmaterias = req.createObjectStore('tblmaterias',{keyPath: 'idMateria'});
-            tbldocentes = req.createObjectStore('tbldocentes',{keyPath:'idDocente'})
-            tblmatriculas = req.createObjectStore('tblmatriculas',{keyPath:'idMatricula'})
+            tbldocentes = req.createObjectStore('tbldocentes',{keyPath:'idDocente'});
+            tblmatriculas = req.createObjectStore('tblmatriculas',{keyPath:'idMatricula'});
+            tblinscripcion = req.createObjectStore('tblinscripcion',{keyPath:'idInscripcion'});
             
             tblalumnos.createIndex('idAlumno','idAlumno',{unique:true});
             tblalumnos.createIndex('codigo','codigo',{unique:true});
             tbldocentes.createIndex('idDocente','idDocente',{unique:true});
+            tblmaterias.createIndex('idMateria','idMateria',{unique:true});
+            tblinscripcion.createIndex('idInscripcion','idInscripcion',{unique:true});
         };
         indexDB.onsuccess = e=>{
           db = e.target.result;

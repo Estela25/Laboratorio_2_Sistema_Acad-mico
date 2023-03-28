@@ -46,6 +46,11 @@ Vue.component('matriculas',{
           }
           let query = store.put( JSON.parse( JSON.stringify(this.matricula)));
           query.onsuccess = resp=>{
+            fetch(`private/modulos/matriculas/matriculas.php?accion=${this.accion}&matricula=${JSON.stringify(this.matricula)}`)
+                .then(resp=>resp.json())
+                .then(resp=>{
+                    console.log(resp);
+                });
             this.nuevoMatricula();
             this.listar();
           };
@@ -59,6 +64,11 @@ Vue.component('matriculas',{
             let store = abrirStore('tblmatriculas','readwrite'),
                 req = store.delete(matricula.idMatricula);
                 req.onsuccess = res=>{
+                  fetch(`private/modulos/matriculas/matriculas.php?accion=eliminar&matricula=${JSON.stringify(this.matricula)}`)
+                    .then(resp=>resp.json())
+                    .then(resp=>{
+                        console.log(resp);
+                    });
                   this.listar();
                 };
                 req.onerror = err=>{
@@ -79,6 +89,9 @@ Vue.component('matriculas',{
                 return {id: alumno.idAlumno, label: alumno.nombre}
             })
         }
+        fetch(`private/modulos/matriculas/matriculas.php`)
+                        .then((response) => response.json())
+                        .then((data)=> (this.matriculas = data));
     },
   },
     template : `
